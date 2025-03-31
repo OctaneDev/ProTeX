@@ -1,0 +1,145 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:protex/common/colors.dart';
+import 'package:protex/document/document.dart';
+import 'package:protex/l10n/app_localizations.dart';
+import 'package:protex/main.dart';
+
+class ItemEditor extends StatefulWidget {
+  /// A [Document] viewer and editor that fills the available space
+  const ItemEditor(this.document, {super.key});
+
+  /// The [Document] for the widget to modify
+  final Document document;
+
+  @override
+  State<ItemEditor> createState() => _ItemEditorState();
+}
+
+class _ItemEditorState extends State<ItemEditor> {
+  final TextEditingController controller = TextEditingController();
+
+  List<String> _shorts() => List.generate(shortcuts.length, (index) => shortcuts[index].shortCut);
+  late final List<String> shorts = _shorts();
+
+  bool _valid = true;
+
+  int count(String value, String search) {
+    int count = 0;
+    value.splitMapJoin(search, onMatch: (m) {
+      count++;
+      return "";
+    });
+    return count;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Document document = widget.document;
+    controller.text = document.contents;
+    try {
+      controller.selection = TextSelection.collapsed(offset: document.cursorPosition);
+    } catch (e) {
+      log("failed to move cursor", error: e);
+    }
+
+    FocusNode node = FocusNode(
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.tab) {
+          log("caught");
+          node.requestFocus();
+          setState(() {
+            document.contents = "${document.contents.substring(0, controller.selection.base.offset)}  ${document.contents.substring(controller.selection.base.offset)}";
+            document.cursorPosition = controller.selection.base.offset+2;
+          });
+          node.requestFocus(); // TODO disable traverse
+          return KeyEventResult.handled;
+        }
+        return KeyEventResult.ignored;
+      }
+    );
+
+    return SafeArea(
+      //minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+      child: TextField(
+        key: widget.key,
+        /*focusNode: node,*/
+        controller: controller,
+        selectionControls: DesktopTextSelectionControls(),
+        maxLines: null,
+        expands: true,
+        autofocus: true,
+        textAlignVertical: TextAlignVertical.top,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          errorBorder: _valid ? null : OutlineInputBorder(borderSide: BorderSide(color: AppColors.warning)),
+          errorText: _valid ? null : AppLocalizations.of(context)!.invalidTex,
+        ),
+        style: TextStyle(
+          fontFamily: 'SourceCodePro',
+          fontWeight: FontWeight.w600
+        ),
+        onChanged: (value) {
+          if ((count(value, "<py>") != count(value, "</py>")) || 
+              (count(value, r"\begin") != count(value, r"\end")) || 
+              ((count(value, r"{") - count(value, r"\{")) != (count(value, r"}") - count(value, r"\}"))) || 
+              ((count(value, r"[") - count(value, r"\[")) != (count(value, r"]") - count(value, r"\]"))) || 
+              ((count(value, r"$") - count(value, r"\$")) != (count(value, r"$") - count(value, r"\$")))) {
+            setState(() {
+              _valid = false;
+              document.cursorPosition = controller.selection.base.offset;
+            });
+          } else {
+            setState(() {
+              _valid = true;
+              document.cursorPosition = controller.selection.base.offset;
+            });
+          }
+          for (String shortcut in shorts) {
+            if (value.contains(shortcut)) {
+              setState(() {
+                String replacement = shortcuts[shorts.indexOf(shortcut)].fullValue;
+                int offset() {
+                  if (replacement.contains(r"{}{}")) {
+                    return replacement.length-3;
+                  } else if (replacement.contains(r"{}")) {
+                    return replacement.length-1;
+                  } else if (replacement.contains("\\begin")) {
+                    List<String> segments = replacement.split("\n");
+                    int skip = -1;
+                    if (segments[1].contains(r"\item")) {
+                      skip -= 6;
+                    } else if (segments[0].contains(r"[american]")) {
+                      skip -= 10;
+                    } 
+                    for (int i = 0; i < segments.length-1; i++) {
+                      skip += segments[i].length;
+                    }
+                    return replacement.length-skip;
+                  } else if (replacement.contains(r"<py>")) {
+                    return replacement.length-6;
+                  }
+                  return replacement.length;
+                }
+                value = value.replaceAll(shortcut, replacement);
+                document.cursorPosition = controller.selection.base.offset-shortcut.length+offset();
+              }); 
+            }
+            
+          }
+          if (document.saved) {
+            document.cursorPosition = controller.selection.base.offset;
+            document.documentChanged();
+          }
+          document.contents = value;
+
+        },
+        /*contextMenuBuilder: (context, editableTextState) {
+          // TODO implement context menu
+        }*/
+      )
+    );
+  }
+}

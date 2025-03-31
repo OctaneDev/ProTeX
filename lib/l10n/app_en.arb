@@ -1,0 +1,180 @@
+{
+  "appName": "ProTeX",
+  "@appName": {
+      "description": "The name of the application"
+  },
+  "ok": "Okay",
+  "cont": "Continue",
+  "cancel": "Cancel",
+  "dismiss": "Dismiss",
+  "copied": "Copied to clipboard",
+
+  "about": "About",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "0.1.0+1"
+      }
+    }
+  },
+  "quit": "Quit",
+  "file": "File",
+  "newDoc": "New document",
+  "newTab": "New tab",
+  "open": "Open",
+  "save": "Save",
+  "saveAs": "Save as...",
+  "export": "Export...",
+  "build": "Build PDF",
+  "close": "Close document",
+
+  "edit": "Edit",
+  "prefs": "Preferences",
+  "find": "Find...",
+  "replace": "Replace...",
+
+  "go": "Go",
+  "cacheLocation": "Cache folder",
+  "tempLocation": "Temp folder",
+
+  "view": "View",
+  "showShortcuts": "Show shortcuts",
+
+  "statusReady": "Status: ready",
+
+  "homeTitle": "Get started",
+  "emptyTemp": "Empty Document",
+  "minArticleTitle": "Basic article",
+  "minArticleContents": "\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}",
+  "@minArticleContents": {
+    "placeholders": {
+      "fontSize": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "minReportTitle": "Basic report",
+  "minReportContents": "\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}",
+  "@minReportContents": {
+    "placeholders": {
+      "fontSize": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "minBookTitle": "Basic book",
+  "minBookContents": "\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}",
+  "@minBookContents": {
+    "placeholders": {
+      "fontSize": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "unsavedChangesWarningTitle": "Warning: unsaved changes",
+  "unsavedChangesWarning": "This document has unsaved changes that will be lost if you continue.",
+
+  "oldFileWarningTitle": "Warning: document missing features",
+  "oldFileWarning": "The document you ({file}) selected does not support all the features of this app. If you save changes to this file, it will no longer be compatible with other TeX editors.",
+  "@oldFileWarning": {
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+
+  "compileErrorDialogTitle": "Failed to compile",
+  "pythonNotFoundException": "An acceptable version of Python was not found on your computer. Please make sure you have Python 3.x installed and that the binary's directory is in your system's PATH.",
+  "compileFailedException": "The selected TeX compiler failed to process your document.",
+  "biberFailedException": "Biber failed to process your document. Please ensure that it is installed and can be called as \"biber\" from your system's shell.",
+  "openPdfException": "Failed to launch file {file}.",
+  "@openPdfException": {
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "stoppedEarly": "PDF build stopped early.",
+  "invalidTex": "Check for unclosed braces or other syntax errors.",
+  "root": "Root",
+  "home": "Home",
+  "documents": "Documents",
+  "fileName": "File name",
+  "invalidFileName": "Invalid file name",
+
+  "appStyleSettingsTitle": "ProTeX",
+  "authorName": "Default author name",
+  "defaultDocFontSize": "Default document font size",
+  "whichPDFViewer": "Open PDFs with",
+  "sysDefaultPDF": "System default",
+  "internalPDF": "ProTeX PDF Viewer",
+  "themeMode": "App theme",
+  "@themeMode": {
+    "description": "The title for the theme mode setting"
+  },
+  "systemTheme": "System theme",
+  "lightTheme": "Light theme",
+  "darkTheme": "Dark theme",
+  "colorMode": "App color scheme",
+  "@colorMode": {
+    "description": "The title for the eye care setting"
+  },
+  "colorModeSystem": "System color",
+  "@colorModeSystem": {
+    "description": "Set the seed color as the system's accent color"
+  },
+  "colorModeEyeCare": "Eye-safe",
+  "@colorModeEyeCare": {
+    "description": "Set the seed color as the eye-safe color"
+  },
+  "texSettingsTitle": "TeX settings",
+  "texCompiler": "TeX compiler",
+  "noneSelected": "None selected",
+  "latex": "LaTeX",
+  "pdftex": "pdfTeX",
+  "xetex": "XeTeX",
+  "lualatex": "LuaLaTeX",
+  "pythonSettingsTitle": "Python settings",
+  "installTex": "Download TeXLive",
+
+  "title": "Title",
+  "part": "Part",
+  "chapter": "Chapter",
+  "section": "Section",
+  "subsection": "Subsection",
+  "subsubsection": "Subsubsection",
+  "bold": "Bold",
+  "italic": "Italic",
+  "underline": "Underline",
+  "emphasize": "Emphasize",
+  "unordered": "Unordered list",
+  "ordered": "Ordered list",
+  "listItem": "List item",
+  "quote": "Quote",
+  "bar": "Bar",
+  "tilde": "Tilde",
+  "citation": "Citation",
+  "equations": "Equation section",
+  "hat": "Hat",
+  "fraction": "Fraction",
+  "bigFraction": "Big fraction",
+  "chemForm": "Chemical formula",
+  "pyCode": "Python code",
+  "centerAlign": "Center align",
+  "includeGraphics": "Include graphics",
+  "circuitSection": "CircuiTikz section"
+}
