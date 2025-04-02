@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -18,7 +19,6 @@ import 'package:system_theme/system_theme.dart';
 import 'package:window_manager/window_manager.dart';
 
 // TODO create module for preprocessor
-// TODO save state
 
 /// The seed color that will be used throughout the app based on the system's theme
 late final Color seedColor;
@@ -57,7 +57,7 @@ late final SharedPreferences prefs;
 final SettingsController settingsController = SettingsController(SettingsService());
 
 /// The [List] of open [Document]s throughout the App
-final Library openDocs = Library();
+late final Library openDocs;
 
 /// A context-less way to get [AppLocalizations]
 late AppLocalizations l10n;
@@ -121,6 +121,11 @@ void main(List<String> args) async {
 
   // Load the user's settings
   settingsController.loadSettings();
+  openDocs = settingsController.openDocs;
+  openDocs.addListener(() async {
+    log("Library changed");
+    await settingsController.updateLibrary;
+  });
 
   runApp(MainApp(settingsController: settingsController));
 }

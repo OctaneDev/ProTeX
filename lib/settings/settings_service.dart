@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:protex/document/library.dart';
 import 'package:protex/main.dart';
 
 /// A service that stores and retrieves user settings.
 class SettingsService {
+
   String themeModeString(ThemeMode theme) {
     return {
       ThemeMode.light: "light",
@@ -17,6 +22,11 @@ class SettingsService {
       "dark": ThemeMode.dark,
       "auto": ThemeMode.system,
     }[theme];
+  }
+
+  Library openDocs() {
+    String? library = prefs.getString("openDocs");
+    return library != null ? Library.fromJson(jsonDecode(library)) : Library();
   }
 
   /// Loads the User's preferred ThemeMode from local or remote storage.
@@ -54,6 +64,11 @@ class SettingsService {
   bool showShortcuts() {
     bool? show = prefs.getBool("showShortcuts");
     return show ?? false;
+  }
+
+  Future<void> updateLibrary(Library library) async {
+    log("Saving library");
+    await prefs.setString("openDocs", jsonEncode(library.toJson()));
   }
 
   /// Persists the user's preferred ThemeMode to local or remote storage.

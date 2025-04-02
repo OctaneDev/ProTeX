@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:protex/document/library.dart';
 
 import 'settings_service.dart';
 
@@ -44,6 +47,10 @@ class SettingsController with ChangeNotifier {
   /// Whether to show the shortcuts panel
   bool get showShortcuts => _showShortcuts;
 
+  late Library _openDocs;
+  /// The library of open documents
+  Library get openDocs => _openDocs;
+
   /// Load the user's settings from the SettingsService. It may load from a
   /// local database or the internet. The controller only knows it can load the
   /// settings from the service.
@@ -55,9 +62,15 @@ class SettingsController with ChangeNotifier {
     _defDocFont = _settingsService.docFont();
     _authorName = _settingsService.getAuthor();
     _showShortcuts = _settingsService.showShortcuts();
+    _openDocs = _settingsService.openDocs();
 
     // Important! Inform listeners a change has occurred.
     notifyListeners();
+  }
+
+  Future<void> get updateLibrary async {
+    log("Updating library");
+    await _settingsService.updateLibrary(_openDocs);
   }
 
   /// Update and persist the ThemeMode based on the user's selection.

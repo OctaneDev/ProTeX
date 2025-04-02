@@ -14,6 +14,8 @@ import 'package:protex/document/document.dart';
 import 'package:protex/l10n/app_localizations.dart';
 
 class Library extends ChangeNotifier {
+  Library();
+  
   /// Internal, private state of the [Library]
   final List<Document> _documents = [];
 
@@ -41,6 +43,24 @@ class Library extends ChangeNotifier {
   @override
   String toString() {
     return documents.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'documents': _documents.map((doc) => doc.toJson()).toList(),
+      'currentIndex': _currentIndex,
+    };
+  }
+
+  factory Library.fromJson(Map<String, dynamic> json) {
+    final library = Library();
+    library._currentIndex = json['currentIndex'] ?? 0;
+    if (json['documents'] != null) {
+      for (var docJson in json['documents']) {
+        library.add(Document.fromJson(docJson));
+      }
+    }
+    return library;
   }
 
   /// Updates the [currentIndex]

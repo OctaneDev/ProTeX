@@ -68,6 +68,26 @@ class Document extends ChangeNotifier {
     return Document(file.path, Platform.isWindows ? file.path.split(r'\').last : file.path.split('/').last, isJson ? jsonDecode(readFile)['content'] : readFile, metadata: isJson ? phase2Metadata : null, saved: true);
   }
 
+  factory Document.fromJson(Map<String, dynamic> json) {
+    return Document(
+      json['path'] as String?,
+      json['title'] as String,
+      json['content'] as String,
+      metadata: json['metadata'] != null ? Map<String, String>.from(json['metadata']) : null,
+      saved: json['saved'] as bool? ?? true,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'path': path,
+      'title': title,
+      'content': contents,
+      'metadata': metadata,
+      'saved': saved,
+    };
+  }
+
   @override
   String toString() {
     return [id, path, title, contents, metadata, saved].toString();
