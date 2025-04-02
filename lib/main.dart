@@ -18,6 +18,7 @@ import 'package:system_theme/system_theme.dart';
 import 'package:window_manager/window_manager.dart';
 
 // TODO create module for preprocessor
+// TODO save state
 
 /// The seed color that will be used throughout the app based on the system's theme
 late final Color seedColor;

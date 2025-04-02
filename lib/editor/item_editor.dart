@@ -35,6 +35,59 @@ class _ItemEditorState extends State<ItemEditor> {
     return count;
   }
 
+  late FocusNode node;
+
+  @override
+  void initState() {
+    super.initState();
+    node = FocusNode(
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.tab) {
+          log("caught");
+          node.requestFocus();
+          setState(() {
+            widget.document.contents = "${widget.document.contents.substring(0, controller.selection.base.offset)}  ${widget.document.contents.substring(controller.selection.base.offset)}";
+            widget.document.cursorPosition = controller.selection.base.offset+2;
+          });
+          node.requestFocus(); // TODO disable traverse
+          return KeyEventResult.handled;
+        } else if (event is KeyDownEvent && (event.logicalKey == LogicalKeyboardKey.parenthesisLeft || event.logicalKey == LogicalKeyboardKey.bracketLeft || event.logicalKey == LogicalKeyboardKey.quote || event.logicalKey == LogicalKeyboardKey.quoteSingle || event.logicalKey == LogicalKeyboardKey.braceLeft)) {
+          List<String> replacement = [];
+          if (event.logicalKey == LogicalKeyboardKey.parenthesisLeft) {
+            replacement = ["(", ")"];
+          } else if (event.logicalKey == LogicalKeyboardKey.bracketLeft) {
+            replacement = ["[", "]"];
+          } else if (event.logicalKey == LogicalKeyboardKey.quote) {
+            replacement = ['"', '"'];
+          } else if (event.logicalKey == LogicalKeyboardKey.quoteSingle) {
+            replacement = ["'", "'"];
+          } else if (event.logicalKey == LogicalKeyboardKey.braceLeft) {
+            replacement = ["{", "}"];
+          }
+          setState(() {
+            widget.document.contents = "${widget.document.contents.substring(0, controller.selection.start)}${replacement.first}${widget.document.contents.substring(controller.selection.start, controller.selection.end)}${replacement.last}${widget.document.contents.substring(controller.selection.end)}";
+            widget.document.cursorPosition = controller.selection.end+2;
+          });
+          return KeyEventResult.handled;
+        }
+        return KeyEventResult.ignored;
+      }
+    );
+    node.addListener(() {
+      if (node.hasFocus) {
+        setState(() {
+          widget.document.cursorPosition = controller.selection.base.offset;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    node.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Document document = widget.document;
@@ -45,27 +98,11 @@ class _ItemEditorState extends State<ItemEditor> {
       log("failed to move cursor", error: e);
     }
 
-    FocusNode node = FocusNode(
-      onKeyEvent: (node, event) {
-        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.tab) {
-          log("caught");
-          node.requestFocus();
-          setState(() {
-            document.contents = "${document.contents.substring(0, controller.selection.base.offset)}  ${document.contents.substring(controller.selection.base.offset)}";
-            document.cursorPosition = controller.selection.base.offset+2;
-          });
-          node.requestFocus(); // TODO disable traverse
-          return KeyEventResult.handled;
-        }
-        return KeyEventResult.ignored;
-      }
-    );
-
     return SafeArea(
       //minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
       child: TextField(
         key: widget.key,
-        /*focusNode: node,*/
+        focusNode: node,
         controller: controller,
         selectionControls: DesktopTextSelectionControls(),
         maxLines: null,
@@ -82,7 +119,7 @@ class _ItemEditorState extends State<ItemEditor> {
           fontWeight: FontWeight.w600
         ),
         onChanged: (value) {
-          if ((count(value, "<py>") != count(value, "</py>")) || 
+           if ((count(value, "<py>") != count(value, "</py>")) || 
               (count(value, r"\begin") != count(value, r"\end")) || 
               ((count(value, r"{") - count(value, r"\{")) != (count(value, r"}") - count(value, r"\}"))) || 
               ((count(value, r"[") - count(value, r"\[")) != (count(value, r"]") - count(value, r"\]"))) || 
@@ -134,7 +171,7 @@ class _ItemEditorState extends State<ItemEditor> {
             document.documentChanged();
           }
           document.contents = value;
-
+          node.requestFocus();
         },
         /*contextMenuBuilder: (context, editableTextState) {
           // TODO implement context menu
