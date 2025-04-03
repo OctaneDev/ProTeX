@@ -74,7 +74,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get find => 'Find...';
 
   @override
-  String get replace => 'Replace...';
+  String get replace => 'Replace';
 
   @override
   String get go => 'Go';
@@ -90,6 +90,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showShortcuts => 'Show shortcuts';
+
+  @override
+  String get findReplace => 'Find and replace';
+
+  @override
+  String get replaceAll => 'Replace all';
+
+  @override
+  String get findNext => 'Find next';
+
+  @override
+  String get findPrev => 'Find previous';
 
   @override
   String get statusReady => 'Status: ready';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:protex/document/library.dart';
 
@@ -69,7 +67,6 @@ class SettingsController with ChangeNotifier {
   }
 
   Future<void> get updateLibrary async {
-    log("Updating library");
     await _settingsService.updateLibrary(_openDocs);
   }
 

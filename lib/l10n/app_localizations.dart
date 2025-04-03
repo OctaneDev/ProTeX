@@ -222,7 +222,7 @@ abstract class AppLocalizations {
   /// No description provided for @replace.
   ///
   /// In en, this message translates to:
-  /// **'Replace...'**
+  /// **'Replace'**
   String get replace;
 
   /// No description provided for @go.
@@ -254,6 +254,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show shortcuts'**
   String get showShortcuts;
+
+  /// No description provided for @findReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Find and replace'**
+  String get findReplace;
+
+  /// No description provided for @replaceAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace all'**
+  String get replaceAll;
+
+  /// No description provided for @findNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Find next'**
+  String get findNext;
+
+  /// No description provided for @findPrev.
+  ///
+  /// In en, this message translates to:
+  /// **'Find previous'**
+  String get findPrev;
 
   /// No description provided for @statusReady.
   ///

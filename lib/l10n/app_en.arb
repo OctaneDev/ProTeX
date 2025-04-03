@@ -42,6 +42,12 @@
   "view": "View",
   "showShortcuts": "Show shortcuts",
 
+  "findReplace": "Find and replace",
+  "replaceAll": "Replace all",
+  "replace": "Replace",
+  "findNext": "Find next",
+  "findPrev": "Find previous",
+
   "statusReady": "Status: ready",
 
   "homeTitle": "Get started",

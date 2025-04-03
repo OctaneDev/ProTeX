@@ -26,6 +26,10 @@ class Document extends ChangeNotifier {
   Map<String, String>? metadata;
   bool saved;
   int cursorPosition = 0;
+  TextSelection? _selection;
+  TextSelection? get selection => _selection;
+  bool _hasFocus = false;
+  bool get hasFocus => _hasFocus;
   File? pdf;
   final Status status = Status();
   late Compiler? _compiler;
@@ -91,6 +95,26 @@ class Document extends ChangeNotifier {
   @override
   String toString() {
     return [id, path, title, contents, metadata, saved].toString();
+  }
+
+  void setSelection(TextSelection? selection) {
+    _selection = selection;
+    notifyListeners();
+  }
+
+  void giveFocus() {
+    _hasFocus = true;
+    notifyListeners();
+  }
+  
+  void removeFocus() {
+    _hasFocus = false;
+    notifyListeners();
+  }
+
+  void setCursorPosition(int position) {
+    cursorPosition = position;
+    notifyListeners();
   }
 
   void createCompiler(BuildContext context) {

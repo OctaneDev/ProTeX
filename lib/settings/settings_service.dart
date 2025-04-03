@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:protex/document/library.dart';
@@ -67,7 +66,6 @@ class SettingsService {
   }
 
   Future<void> updateLibrary(Library library) async {
-    log("Saving library");
     await prefs.setString("openDocs", jsonEncode(library.toJson()));
   }
 

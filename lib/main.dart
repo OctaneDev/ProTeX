@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -123,7 +122,6 @@ void main(List<String> args) async {
   settingsController.loadSettings();
   openDocs = settingsController.openDocs;
   openDocs.addListener(() async {
-    log("Library changed");
     await settingsController.updateLibrary;
   });
 

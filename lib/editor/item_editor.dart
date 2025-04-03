@@ -40,6 +40,13 @@ class _ItemEditorState extends State<ItemEditor> {
   @override
   void initState() {
     super.initState();
+    widget.document.addListener(() {
+      setState(() {
+        if (widget.document.hasFocus) {
+          node.requestFocus();
+        }
+      });
+    });
     node = FocusNode(
       onKeyEvent: (node, event) {
         if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.tab) {
@@ -49,7 +56,7 @@ class _ItemEditorState extends State<ItemEditor> {
             widget.document.contents = "${widget.document.contents.substring(0, controller.selection.base.offset)}  ${widget.document.contents.substring(controller.selection.base.offset)}";
             widget.document.cursorPosition = controller.selection.base.offset+2;
           });
-          node.requestFocus(); // TODO disable traverse
+          node.requestFocus();
           return KeyEventResult.handled;
         } else if (event is KeyDownEvent && (event.logicalKey == LogicalKeyboardKey.parenthesisLeft || event.logicalKey == LogicalKeyboardKey.bracketLeft || event.logicalKey == LogicalKeyboardKey.quote || event.logicalKey == LogicalKeyboardKey.quoteSingle || event.logicalKey == LogicalKeyboardKey.braceLeft)) {
           List<String> replacement = [];
@@ -66,7 +73,7 @@ class _ItemEditorState extends State<ItemEditor> {
           }
           setState(() {
             widget.document.contents = "${widget.document.contents.substring(0, controller.selection.start)}${replacement.first}${widget.document.contents.substring(controller.selection.start, controller.selection.end)}${replacement.last}${widget.document.contents.substring(controller.selection.end)}";
-            widget.document.cursorPosition = controller.selection.end+2;
+            widget.document.cursorPosition = controller.selection.end+1;
           });
           return KeyEventResult.handled;
         }
@@ -98,6 +105,10 @@ class _ItemEditorState extends State<ItemEditor> {
       log("failed to move cursor", error: e);
     }
 
+    if (document.selection != null) {
+      controller.selection = document.selection!;
+    }
+
     return SafeArea(
       //minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
       child: TextField(
@@ -107,7 +118,7 @@ class _ItemEditorState extends State<ItemEditor> {
         selectionControls: DesktopTextSelectionControls(),
         maxLines: null,
         expands: true,
-        autofocus: true,
+        autofocus: document.hasFocus,
         textAlignVertical: TextAlignVertical.top,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
@@ -124,52 +135,53 @@ class _ItemEditorState extends State<ItemEditor> {
               ((count(value, r"{") - count(value, r"\{")) != (count(value, r"}") - count(value, r"\}"))) || 
               ((count(value, r"[") - count(value, r"\[")) != (count(value, r"]") - count(value, r"\]"))) || 
               ((count(value, r"$") - count(value, r"\$")) != (count(value, r"$") - count(value, r"\$")))) {
-            setState(() {
-              _valid = false;
-              document.cursorPosition = controller.selection.base.offset;
-            });
-          } else {
-            setState(() {
-              _valid = true;
-              document.cursorPosition = controller.selection.base.offset;
-            });
-          }
-          for (String shortcut in shorts) {
-            if (value.contains(shortcut)) {
               setState(() {
-                String replacement = shortcuts[shorts.indexOf(shortcut)].fullValue;
-                int offset() {
-                  if (replacement.contains(r"{}{}")) {
-                    return replacement.length-3;
-                  } else if (replacement.contains(r"{}")) {
-                    return replacement.length-1;
-                  } else if (replacement.contains("\\begin")) {
-                    List<String> segments = replacement.split("\n");
-                    int skip = -1;
-                    if (segments[1].contains(r"\item")) {
-                      skip -= 6;
-                    } else if (segments[0].contains(r"[american]")) {
-                      skip -= 10;
-                    } 
-                    for (int i = 0; i < segments.length-1; i++) {
-                      skip += segments[i].length;
-                    }
-                    return replacement.length-skip;
-                  } else if (replacement.contains(r"<py>")) {
-                    return replacement.length-6;
-                  }
-                  return replacement.length;
-                }
-                value = value.replaceAll(shortcut, replacement);
-                document.cursorPosition = controller.selection.base.offset-shortcut.length+offset();
-              }); 
+                _valid = false;
+                document.cursorPosition = controller.selection.base.offset;
+              });
+            } else {
+              setState(() {
+                _valid = true;
+                document.cursorPosition = controller.selection.base.offset;
+              });
             }
-            
+            for (String shortcut in shorts) {
+              if (value.contains(shortcut)) {
+                setState(() {
+                  String replacement = shortcuts[shorts.indexOf(shortcut)].fullValue;
+                  int offset() {
+                    if (replacement.contains(r"{}{}")) {
+                      return replacement.length-3;
+                    } else if (replacement.contains(r"{}")) {
+                      return replacement.length-1;
+                    } else if (replacement.contains("\\begin")) {
+                      List<String> segments = replacement.split("\n");
+                      int skip = -1;
+                      if (segments[1].contains(r"\item")) {
+                        skip -= 6;
+                      } else if (segments[0].contains(r"[american]")) {
+                        skip -= 10;
+                      } 
+                      for (int i = 0; i < segments.length-1; i++) {
+                        skip += segments[i].length;
+                      }
+                      return replacement.length-skip;
+                    } else if (replacement.contains(r"<py>")) {
+                      return replacement.length-6;
+                    }
+                    return replacement.length;
+                  }
+                  value = value.replaceAll(shortcut, replacement);
+                  document.cursorPosition = controller.selection.base.offset-shortcut.length+offset();
+                }
+              ); 
+            }
           }
           if (document.saved) {
-            document.cursorPosition = controller.selection.base.offset;
             document.documentChanged();
           }
+          document.cursorPosition = controller.selection.base.offset;
+          document.setSelection(controller.selection);
           document.contents = value;
           node.requestFocus();
         },

@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:protex/common/navigation_service.dart';
 import 'package:protex/common/templates.dart';
 import 'package:protex/compiler/subprocess_runner.dart';
+import 'package:protex/editor/find_replace_bar.dart';
 import 'package:protex/editor/home.dart';
 import 'package:protex/editor/item_editor.dart';
 import 'package:protex/editor/shortcut.dart';
@@ -54,7 +55,6 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
     settingsController.addListener(() => setState(() {}));
 
     // Override the default macOS menu
-    // TODO add menu parity
     if (Platform.isMacOS) {
       WidgetsBinding.instance.platformMenuDelegate.setMenus(<PlatformMenuItem>[
         PlatformMenu(
@@ -86,7 +86,7 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
         ),
         PlatformMenu(
           label: l10n.file, 
-          menus: <PlatformMenuItem> [
+          menus: <PlatformMenuItem>[
             PlatformMenuItemGroup(
               members: <PlatformMenuItem>[
                 PlatformMenuItem(
@@ -141,10 +141,15 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
                   ),
                   onSelected: () async => await save(saveAs: true),
                 ),
-                PlatformMenuItem(
+                /*PlatformMenuItem(
                   label: l10n.export,
-                  onSelected: () => log("export"),
+                  onSelected: () => makePdf(),
                   shortcut: SingleActivator(LogicalKeyboardKey.keyE, shift: true, meta: true)
+                ),*/
+                PlatformMenuItem(
+                  label: l10n.build,
+                  onSelected: () => makePdf(),
+                  shortcut: SingleActivator(LogicalKeyboardKey.f5)
                 ),
               ]
             ),
@@ -158,7 +163,55 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
               ]
             )
           ]
-        )
+        ),
+        PlatformMenu(
+          label: l10n.edit, 
+          menus: <PlatformMenuItem>[
+            PlatformMenuItem(
+              label: l10n.prefs,
+              shortcut: SingleActivator(
+                LogicalKeyboardKey.comma,
+                meta: true
+              ),
+              onSelected: () => Navigator.restorablePushNamed(context, SettingsView.routeName),
+            ),
+            PlatformMenuItem(
+              label: l10n.find,
+              shortcut: SingleActivator(
+                LogicalKeyboardKey.keyF,
+                meta: true
+              ),
+              onSelected: () => findReplace(),
+            ),
+            PlatformMenuItem(
+              label: l10n.replace,
+              shortcut: SingleActivator(
+                LogicalKeyboardKey.keyR,
+                meta: true
+              ),
+              onSelected: () => findReplace(replace: true),
+            ),
+          ]
+        ),
+        PlatformMenu(label: l10n.go, menus: <PlatformMenuItem>[
+          PlatformMenuItem(
+            label: l10n.cacheLocation,
+            onSelected: () async => openLocation((await getApplicationCacheDirectory()).path),
+          ),
+          PlatformMenuItem(
+            label: l10n.tempLocation,
+            onSelected: () async => openLocation((await getTemporaryDirectory()).path),
+          ),
+        ]),
+        PlatformMenu(label: l10n.view, menus: <PlatformMenuItem>[
+          PlatformMenuItem(
+            label: l10n.showShortcuts,
+            onSelected: () async => await settingsController.updateShowShortcuts(!settingsController.showShortcuts),
+            shortcut: SingleActivator(
+              LogicalKeyboardKey.f1
+            )
+          )
+        ]),
       ]);
     }
     super.initState();
@@ -317,10 +370,46 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
     }
   }
 
+  /// Show a dialog for finding/replacing text in the current document.
+  bool showFind = false;
+  bool showReplace = false;
+  TextEditingController findController = TextEditingController();
+  TextEditingController replaceController = TextEditingController();
+  FocusNode findNode = FocusNode();
+  FocusNode replaceNode = FocusNode();
+
+  void findReplace({bool replace = false}) {
+    if (replace) {
+      showReplace = !showReplace;
+      //showFind = showReplace;
+    } else {
+      showFind = !showFind;
+      showReplace = false;
+    }
+
+    if (showFind || showReplace) {
+      findNode.requestFocus();
+      openDocs.documents[_tabController.index].removeFocus();
+    } else {
+      findNode.unfocus();
+      openDocs.documents[_tabController.index].giveFocus();
+      openDocs.documents[_tabController.index].setSelection(null);
+      openDocs.documents[_tabController.index].setCursorPosition(openDocs.documents[_tabController.index].cursorPosition + findController.text.length);
+    }
+
+    setState(() {});
+  }
+
   bool _dragging = false;
 
   @override
   Widget build(BuildContext context) { // TODO support tab dragging/rearranging
+
+    if (openDocs.isNotEmpty && showFind && !openDocs.documents[_tabController.index].hasFocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        FocusScope.of(context).requestFocus(findNode);
+      });
+    }
 
     List<MenuEntry> getMenus() {
       final List<MenuEntry> result = <MenuEntry>[
@@ -352,11 +441,11 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
               shortcut: SingleActivator(LogicalKeyboardKey.keyS, control: true, shift: true),
               onPressed: () async => await save(saveAs: true)
             ),
-            MenuEntry(
+            /*MenuEntry(
               AppLocalizations.of(context)!.export,
               shortcut: SingleActivator(LogicalKeyboardKey.keyE, control: true, shift: true),
               onPressed: () => log("export")
-            ),
+            ),*/
             MenuEntry(
               AppLocalizations.of(context)!.build,
               shortcut: SingleActivator(LogicalKeyboardKey.f5),
@@ -380,12 +469,12 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
             MenuEntry(
               AppLocalizations.of(context)!.find,
               shortcut: SingleActivator(LogicalKeyboardKey.keyF, control: true),
-              onPressed: () => log("find"),
+              onPressed: () => findReplace(),
             ),
             MenuEntry(
               AppLocalizations.of(context)!.replace,
               shortcut: SingleActivator(LogicalKeyboardKey.keyR, control: true),
-              onPressed: () => log("replace"),
+              onPressed: () => findReplace(replace: true),
             ),
           ]
         ),
@@ -500,6 +589,17 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
             color: _dragging ? Theme.of(context).canvasColor.withAlpha(100) : null,
             child: Column(
               children: [
+                if (openDocs.isNotEmpty && (showFind || showReplace)) Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: FindReplaceBar(
+                    document: openDocs.documents[_tabController.index],
+                    findFocusNode: findNode,
+                    findController: findController,
+                    replaceController: replaceController,
+                    replace: showReplace,
+                    replaceFocusNode: replaceNode,
+                  )
+                ),
                 if (openDocs.isEmpty || showHome) Flexible(
                   child: Padding(padding: EdgeInsets.all(16), child: Home()),
                 ),
