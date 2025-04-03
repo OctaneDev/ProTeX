@@ -116,24 +116,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get minArticleTitle => 'Basic article';
 
   @override
-  String minArticleContents(String fontSize, String name) {
-    return '\\documentclass[$fontSize]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{$name}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}';
+  String minArticleContents(String fontSize, String name, String docSize) {
+    return '\\documentclass[$fontSize]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}';
   }
 
   @override
   String get minReportTitle => 'Basic report';
 
   @override
-  String minReportContents(String fontSize, String name) {
-    return '\\documentclass[$fontSize]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{$name}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}';
+  String minReportContents(String fontSize, String name, String docSize) {
+    return '\\documentclass[$fontSize]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}';
   }
 
   @override
   String get minBookTitle => 'Basic book';
 
   @override
-  String minBookContents(String fontSize, String name) {
-    return '\\documentclass[$fontSize]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{$name}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}';
+  String minBookContents(String fontSize, String name, String docSize) {
+    return '\\documentclass[$fontSize]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}';
   }
 
   @override
@@ -196,6 +196,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get defaultDocFontSize => 'Default document font size';
+
+  @override
+  String get defaultDocSize => 'Default document size';
 
   @override
   String get whichPDFViewer => 'Open PDFs with';

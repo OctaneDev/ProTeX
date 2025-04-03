@@ -53,7 +53,7 @@
   "homeTitle": "Get started",
   "emptyTemp": "Empty Document",
   "minArticleTitle": "Basic article",
-  "minArticleContents": "\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}",
+  "minArticleContents": "\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}",
   "@minArticleContents": {
     "placeholders": {
       "fontSize": {
@@ -61,11 +61,14 @@
       },
       "name": {
         "type": "String"
+      },
+      "docSize": {
+        "type": "String"
       }
     }
   },
   "minReportTitle": "Basic report",
-  "minReportContents": "\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}",
+  "minReportContents": "\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}",
   "@minReportContents": {
     "placeholders": {
       "fontSize": {
@@ -73,17 +76,23 @@
       },
       "name": {
         "type": "String"
+      },
+      "docSize": {
+        "type": "String"
       }
     }
   },
   "minBookTitle": "Basic book",
-  "minBookContents": "\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}",
+  "minBookContents": "\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}",
   "@minBookContents": {
     "placeholders": {
       "fontSize": {
         "type": "String"
       },
       "name": {
+        "type": "String"
+      },
+      "docSize": {
         "type": "String"
       }
     }
@@ -125,6 +134,7 @@
   "appStyleSettingsTitle": "ProTeX",
   "authorName": "Default author name",
   "defaultDocFontSize": "Default document font size",
+  "defaultDocSize": "Default document size",
   "whichPDFViewer": "Open PDFs with",
   "sysDefaultPDF": "System default",
   "internalPDF": "ProTeX PDF Viewer",

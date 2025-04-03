@@ -65,6 +65,15 @@ class SettingsService {
     return show ?? false;
   }
 
+  String docSize() {
+    String? docSize = prefs.getString("docSize");
+    return docSize ?? "none";
+  }
+
+  Future<void> updateDocSize(String docSize) async {
+    await prefs.setString("docSize", docSize);
+  }
+
   Future<void> updateLibrary(Library library) async {
     await prefs.setString("openDocs", jsonEncode(library.toJson()));
   }

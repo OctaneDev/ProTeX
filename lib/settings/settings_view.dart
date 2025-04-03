@@ -30,7 +30,7 @@ class SettingsView extends StatelessWidget { // TODO add support for Python virt
             leading: ListSectionTitle(AppLocalizations.of(context)!.appStyleSettingsTitle)
           ),
           SettingsItem(
-            leading: Text(AppLocalizations.of(context)!.authorName),
+            leading: ListItemTitle(AppLocalizations.of(context)!.authorName),
             trailing: SizedBox(
               width: width(context) > 250 ? 200 : width(context)/3, 
               child: TextField(
@@ -39,18 +39,6 @@ class SettingsView extends StatelessWidget { // TODO add support for Python virt
                 onChanged: (value) => controller.updateAuthorName(value),
                 onTapUpOutside: (event) => controller.notifyAuthorName(),
               )
-            ),
-          ),
-          SettingsItem(
-            leading: Text(AppLocalizations.of(context)!.defaultDocFontSize),
-            trailing: DropdownButton<String>(
-              value: controller.defDocFont,
-              items: <DropdownMenuItem<String>>[
-                DropdownMenuItem(value: "10pt", child: Text("10pt")),
-                DropdownMenuItem(value: "11pt", child: Text("11pt")),
-                DropdownMenuItem(value: "12pt", child: Text("12pt")),
-              ], 
-              onChanged: controller.updateDocFont
             ),
           ),
           /*SettingsItem(
@@ -115,7 +103,41 @@ class SettingsView extends StatelessWidget { // TODO add support for Python virt
             )
           ),
           SettingsItem(
-            leading: Text(AppLocalizations.of(context)!.texCompiler),
+            leading: ListItemTitle(AppLocalizations.of(context)!.defaultDocFontSize),
+            trailing: DropdownButton<String>(
+              value: controller.defDocFont,
+              items: <DropdownMenuItem<String>>[
+                DropdownMenuItem(value: "10pt", child: Text("10pt")),
+                DropdownMenuItem(value: "11pt", child: Text("11pt")),
+                DropdownMenuItem(value: "12pt", child: Text("12pt")),
+              ], 
+              onChanged: controller.updateDocFont
+            ),
+          ),
+          SettingsItem(
+            leading: ListItemTitle(AppLocalizations.of(context)!.defaultDocSize),
+            trailing: DropdownButton<String>(
+              value: controller.docSize,
+              items: List.generate(controller.docSizes.length, (index) {
+                String key = controller.docSizes.keys.elementAt(index);
+                String value = controller.docSizes[key]!;
+
+                return DropdownMenuItem(
+                  value: key,
+                  child: Text(value)
+                );
+              }), 
+              onChanged: (value) {
+                if (value != null) {
+                  controller.updateDocSize(value);
+                } else {
+                  controller.updateDocSize("none");
+                }
+              }
+            ),
+          ),
+          SettingsItem(
+            leading: ListItemTitle(AppLocalizations.of(context)!.texCompiler),
             trailing: DropdownButton(
               value: controller.texCompiler,
               padding: EdgeInsets.symmetric(horizontal: 12),
@@ -145,18 +167,18 @@ class SettingsView extends StatelessWidget { // TODO add support for Python virt
             ),
           ),
           SettingsItem(
-            leading: Text(AppLocalizations.of(context)!.installTex),
+            leading: ListItemTitle(AppLocalizations.of(context)!.installTex),
             trailing: IconButton(
               onPressed: () async => await launchUrl(Uri.parse("https://www.tug.org/texlive/")), 
               icon: Icon(Icons.open_in_new)
             ),
           ),
-          Divider(),
+          /*Divider(),
           SettingsItem(
             leading: ListSectionTitle(
               AppLocalizations.of(context)!.pythonSettingsTitle
             )
-          ),
+          ),*/
         ]
       ),
     );

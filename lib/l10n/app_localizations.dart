@@ -306,8 +306,8 @@ abstract class AppLocalizations {
   /// No description provided for @minArticleContents.
   ///
   /// In en, this message translates to:
-  /// **'\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}'**
-  String minArticleContents(String fontSize, String name);
+  /// **'\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}'**
+  String minArticleContents(String fontSize, String name, String docSize);
 
   /// No description provided for @minReportTitle.
   ///
@@ -318,8 +318,8 @@ abstract class AppLocalizations {
   /// No description provided for @minReportContents.
   ///
   /// In en, this message translates to:
-  /// **'\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}'**
-  String minReportContents(String fontSize, String name);
+  /// **'\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}'**
+  String minReportContents(String fontSize, String name, String docSize);
 
   /// No description provided for @minBookTitle.
   ///
@@ -330,8 +330,8 @@ abstract class AppLocalizations {
   /// No description provided for @minBookContents.
   ///
   /// In en, this message translates to:
-  /// **'\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}'**
-  String minBookContents(String fontSize, String name);
+  /// **'\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}'**
+  String minBookContents(String fontSize, String name, String docSize);
 
   /// No description provided for @unsavedChangesWarningTitle.
   ///
@@ -446,6 +446,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default document font size'**
   String get defaultDocFontSize;
+
+  /// No description provided for @defaultDocSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Default document size'**
+  String get defaultDocSize;
 
   /// No description provided for @whichPDFViewer.
   ///

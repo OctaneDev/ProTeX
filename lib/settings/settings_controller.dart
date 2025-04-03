@@ -49,6 +49,49 @@ class SettingsController with ChangeNotifier {
   /// The library of open documents
   Library get openDocs => _openDocs;
 
+  late String _docSize;
+  /// The default document size for templates
+  String get docSize => _docSize;
+  Map<String, String> get docSizes => {
+    "none": "Compiler default",
+    "a0paper": "A0",
+    "a1paper": "A1",
+    "a2paper": "A2",
+    "a3paper": "A3",
+    "a4paper": "A4",
+    "a5paper": "A5",
+    "a6paper": "A6",
+    "b0paper": "B0",
+    "b1paper": "B1",
+    "b2paper": "B2",
+    "b3paper": "B3",
+    "b4paper": "B4",
+    "b5paper": "B5",
+    "b6paper": "B6",
+    "c0paper": "C0",
+    "c1paper": "C1",
+    "c2paper": "C2",
+    "c3paper": "C3",
+    "c4paper": "C4",
+    "c5paper": "C5",
+    "c6paper": "C6",
+    "b0j": "B0 Japanese",
+    "b1j": "B1 Japanese",
+    "b2j": "B2 Japanese",
+    "b3j": "B3 Japanese",
+    "b4j": "B4 Japanese",
+    "b5j": "B5 Japanese",
+    "b6j": "B6 Japanese",
+    "ansiapaper": "ANSI A",
+    "ansibpaper": "ANSI B",
+    "ansicpaper": "ANSI C",
+    "ansidpaper": "ANSI D",
+    "ansiepaper": "ANSI E",
+    "letterpaper": "Letter",
+    "legalpaper": "Legal",
+    "executivepaper": "Executive",
+  };
+
   /// Load the user's settings from the SettingsService. It may load from a
   /// local database or the internet. The controller only knows it can load the
   /// settings from the service.
@@ -61,9 +104,20 @@ class SettingsController with ChangeNotifier {
     _authorName = _settingsService.getAuthor();
     _showShortcuts = _settingsService.showShortcuts();
     _openDocs = _settingsService.openDocs();
+    _docSize = _settingsService.docSize();
 
     // Important! Inform listeners a change has occurred.
     notifyListeners();
+  }
+
+  Future<void> updateDocSize(String newSize) async {
+    if (newSize == _docSize) return;
+
+    _docSize = newSize;
+
+    notifyListeners();
+
+    await _settingsService.updateDocSize(newSize);
   }
 
   Future<void> get updateLibrary async {
