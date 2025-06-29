@@ -17,7 +17,7 @@ import 'package:protex/main.dart';
 import 'package:uuid/v8.dart';
 
 class Document extends ChangeNotifier {
-  Document(this.path, this.title, this.contents, {this.metadata, this.saved = true, this.cursorPosition = 0, this.pdf});
+  Document(this.path, this.title, this.contents, {this.metadata, this.saved = true, this.pdf});
 
   final String id = UuidV8().generate();
   String? path;
@@ -25,7 +25,8 @@ class Document extends ChangeNotifier {
   String contents;
   Map<String, String>? metadata;
   bool saved;
-  int cursorPosition = 0;
+  int _cursorPosition = 0;
+  int get cursorPosition => _cursorPosition;
   TextSelection? _selection;
   TextSelection? get selection => _selection;
   bool _hasFocus = false;
@@ -113,7 +114,7 @@ class Document extends ChangeNotifier {
   }
 
   void setCursorPosition(int position) {
-    cursorPosition = position;
+    _cursorPosition = position;
     notifyListeners();
   }
 

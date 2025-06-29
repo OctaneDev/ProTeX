@@ -140,7 +140,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unsavedChangesWarningTitle => 'Warning: unsaved changes';
 
   @override
-  String get unsavedChangesWarning => 'This document has unsaved changes that will be lost if you continue.';
+  String get unsavedChangesWarning =>
+      'This document has unsaved changes that will be lost if you continue.';
 
   @override
   String get oldFileWarningTitle => 'Warning: document missing features';
@@ -154,13 +155,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get compileErrorDialogTitle => 'Failed to compile';
 
   @override
-  String get pythonNotFoundException => 'An acceptable version of Python was not found on your computer. Please make sure you have Python 3.x installed and that the binary\'s directory is in your system\'s PATH.';
+  String get pythonNotFoundException =>
+      'An acceptable version of Python was not found on your computer. Please make sure you have Python 3.x installed and that the binary\'s directory is in your system\'s PATH.';
 
   @override
-  String get compileFailedException => 'The selected TeX compiler failed to process your document.';
+  String get compileFailedException =>
+      'The selected TeX compiler failed to process your document.';
 
   @override
-  String get biberFailedException => 'Biber failed to process your document. Please ensure that it is installed and can be called as \"biber\" from your system\'s shell.';
+  String get biberFailedException =>
+      'Biber failed to process your document. Please ensure that it is installed and can be called as \"biber\" from your system\'s shell.';
 
   @override
   String openPdfException(String file) {

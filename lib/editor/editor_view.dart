@@ -623,12 +623,12 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
                                   if (index == 0) {
                                     header = Padding(
                                       padding: EdgeInsets.all(12),
-                                      child: Text(shortcuts[index].category.name.toUpperCase(), style: Theme.of(context).textTheme.titleLarge)
+                                      child: Text(shortcuts[index].category.name.toUpperCase(), style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface))
                                     );
                                   } else if (index > 0 && shortcuts[index].category != shortcuts[index-1].category) {
                                     header = Padding(
                                       padding: EdgeInsets.all(12),
-                                      child: Text(shortcuts[index].category.name.toUpperCase(), style: Theme.of(context).textTheme.titleLarge)
+                                      child: Text(shortcuts[index].category.name.toUpperCase(), style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface))
                                     );
                                   }
                                   Shortcut shortcut = shortcuts[index];
@@ -640,11 +640,11 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
                                         header,
                                         Padding(
                                           padding: EdgeInsets.all(12),
-                                          child: RichText(text: TextSpan(text: "${shortcut.name}:\t\t", children: <TextSpan>[
-                                            TextSpan(text: shortcut.shortCut, style: TextStyle(fontFamily: 'SourceCodePro'), recognizer: TapGestureRecognizer()..onTap = () async {
+                                          child: RichText(text: TextSpan(text: "${shortcut.name}:\t\t", style: TextStyle(color: Theme.of(context).colorScheme.onSurface), children: <TextSpan>[
+                                            TextSpan(text: shortcut.shortCut, style: TextStyle(fontFamily: 'SourceCodePro', fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurface), recognizer: TapGestureRecognizer()..onTap = () async {
                                               await Clipboard.setData(ClipboardData(text: shortcut.shortCut)).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.copied))));
                                             })
-                                          ]), softWrap: true, textAlign: TextAlign.justify,),
+                                          ]), softWrap: true, textAlign: TextAlign.justify),
                                         )
                                       ]
                                     );
@@ -652,8 +652,8 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
                                   
                                   return Padding(
                                     padding: EdgeInsets.all(12),
-                                    child: RichText(text: TextSpan(text: "${shortcut.name}:\t\t", children: <TextSpan>[
-                                      TextSpan(text: shortcut.shortCut, style: TextStyle(fontFamily: 'SourceCodePro'), recognizer: TapGestureRecognizer()..onTap = () async {
+                                    child: RichText(text: TextSpan(text: "${shortcut.name}:\t\t", style: TextStyle(color: Theme.of(context).colorScheme.onSurface), children: <TextSpan>[
+                                      TextSpan(text: shortcut.shortCut, style: TextStyle(fontFamily: 'SourceCodePro', fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurface), recognizer: TapGestureRecognizer()..onTap = () async {
                                         await Clipboard.setData(ClipboardData(text: shortcut.shortCut)).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.copied))));
                                       })
                                     ]), softWrap: true, textAlign: TextAlign.justify,),
