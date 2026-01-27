@@ -120,7 +120,7 @@ void main(List<String> args) async {
 
   // Load the user's settings
   settingsController.loadSettings();
-  openDocs = settingsController.openDocs;
+  openDocs = settingsController.rememberState ? settingsController.openDocs : Library();
   openDocs.addListener(() async {
     await settingsController.updateLibrary;
   });

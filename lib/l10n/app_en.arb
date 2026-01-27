@@ -157,6 +157,7 @@
   "@colorModeEyeCare": {
     "description": "Set the seed color as the eye-safe color"
   },
+  "rememberOpenDocs": "Remember open documents between sessions",
   "texSettingsTitle": "TeX settings",
   "texCompiler": "TeX compiler",
   "noneSelected": "None selected",

@@ -25,6 +25,10 @@ class SettingsController with ChangeNotifier {
   /// Whether the user has selected to use the eyecare theme
   bool get eyeCare => _eyeCare;
 
+  late bool _rememberState;
+  /// Whether the user has selected to remember open documents between sessions
+  bool get rememberState => _rememberState;
+
   late String _texCompiler;
   /// Which TeX compiler the user has chosen
   String get texCompiler => _texCompiler;
@@ -98,6 +102,7 @@ class SettingsController with ChangeNotifier {
   void loadSettings() {
     _themeMode = _settingsService.themeMode();
     _eyeCare = _settingsService.colorMode();
+    _rememberState = _settingsService.rememberState();
     _texCompiler = _settingsService.texCompiler();
     _internalPDF = _settingsService.whichPDFViewer();
     _defDocFont = _settingsService.docFont();
@@ -151,6 +156,17 @@ class SettingsController with ChangeNotifier {
     notifyListeners();
 
     await _settingsService.updateColorMode(newEyeCare);
+  }
+
+  /// Update and persist the remember state based on the user's selection
+  Future<void> updateRememberState(bool? newRememberState) async {
+    if (newRememberState == null || newRememberState == _rememberState) return;
+
+    _rememberState = newRememberState;
+    
+    notifyListeners();
+
+    await _settingsService.updateRememberState(newRememberState);
   }
 
   Future<void> updateTexCompiler(String? compiler) async {

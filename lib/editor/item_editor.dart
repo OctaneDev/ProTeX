@@ -41,12 +41,20 @@ class _ItemEditorState extends State<ItemEditor> {
   void initState() {
     super.initState();
     widget.document.addListener(() {
-      setState(() {
-        if (widget.document.hasFocus) {
-          node.requestFocus();
-        }
-        controller.selection = TextSelection.collapsed(offset: widget.document.cursorPosition);
-      });
+      try {
+        setState(() {
+          if (widget.document.hasFocus) {
+            node.requestFocus();
+          }
+          try {
+            controller.selection = TextSelection.collapsed(offset: widget.document.cursorPosition);
+          } catch (e) {
+            log("failed to move cursor", error: e);
+          }
+        });
+      } catch (e) {
+        log("failed to update editor", error: e);
+      }
     });
     node = FocusNode(
       onKeyEvent: (node, event) {
@@ -59,7 +67,7 @@ class _ItemEditorState extends State<ItemEditor> {
           });
           node.requestFocus();
           return KeyEventResult.handled;
-        } else if (event is KeyDownEvent && (event.logicalKey == LogicalKeyboardKey.parenthesisLeft || event.logicalKey == LogicalKeyboardKey.bracketLeft || event.logicalKey == LogicalKeyboardKey.quote || event.logicalKey == LogicalKeyboardKey.quoteSingle || event.logicalKey == LogicalKeyboardKey.braceLeft)) {
+        } else if (event is KeyDownEvent && (event.logicalKey == LogicalKeyboardKey.parenthesisLeft || event.logicalKey == LogicalKeyboardKey.bracketLeft || event.logicalKey == LogicalKeyboardKey.quote || event.logicalKey == LogicalKeyboardKey.braceLeft)) {
           List<String> replacement = [];
           if (event.logicalKey == LogicalKeyboardKey.parenthesisLeft) {
             replacement = ["(", ")"];
@@ -67,8 +75,8 @@ class _ItemEditorState extends State<ItemEditor> {
             replacement = ["[", "]"];
           } else if (event.logicalKey == LogicalKeyboardKey.quote) {
             replacement = ['"', '"'];
-          } else if (event.logicalKey == LogicalKeyboardKey.quoteSingle) {
-            replacement = ["'", "'"];
+          /*} else if (event.logicalKey == LogicalKeyboardKey.quoteSingle) {
+            replacement = ["'", "'"];*/
           } else if (event.logicalKey == LogicalKeyboardKey.braceLeft) {
             replacement = ["{", "}"];
           }
@@ -172,8 +180,9 @@ class _ItemEditorState extends State<ItemEditor> {
                   return replacement.length;
                 }
                 setState(() {
+                  int _offset = offset();
                   value = value.replaceAll(shortcut, replacement);
-                  document.setCursorPosition(controller.selection.base.offset-shortcut.length+offset());
+                  document.setCursorPosition(controller.selection.base.offset-shortcut.length+_offset);
                 }
               ); 
             }

@@ -514,6 +514,12 @@ abstract class AppLocalizations {
   /// **'Eye-safe'**
   String get colorModeEyeCare;
 
+  /// No description provided for @rememberOpenDocs.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember open documents between sessions'**
+  String get rememberOpenDocs;
+
   /// No description provided for @texSettingsTitle.
   ///
   /// In en, this message translates to:

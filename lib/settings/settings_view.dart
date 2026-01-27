@@ -96,6 +96,10 @@ class SettingsView extends StatelessWidget { // TODO add support for Python virt
               ]
             ),
           ),
+          SettingsItem(
+            leading: ListItemTitle(AppLocalizations.of(context)!.rememberOpenDocs),
+            trailing: Switch(value: controller.rememberState, onChanged: controller.updateRememberState),
+          ),
           Divider(),
           SettingsItem(
             leading: ListSectionTitle(

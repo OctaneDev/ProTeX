@@ -235,6 +235,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get colorModeEyeCare => 'Eye-safe';
 
   @override
+  String get rememberOpenDocs => 'Remember open documents between sessions';
+
+  @override
   String get texSettingsTitle => 'TeX settings';
 
   @override

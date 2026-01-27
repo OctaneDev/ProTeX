@@ -40,6 +40,12 @@ class SettingsService {
     return savedColorMode ?? false;
   }
 
+  /// Loads whether the user has selected to remember open documents between sessions
+  bool rememberState() {
+    bool? remember = prefs.getBool("rememberState");
+    return remember ?? true;
+  }
+
   String texCompiler() {
     String? compiler = prefs.getString("texCompiler");
     return compiler ?? l10n.lualatex;
@@ -86,6 +92,11 @@ class SettingsService {
   /// Persists the user's preferred color mode to local or remote storage.
   Future<void> updateColorMode(bool eyeCare) async {
     await prefs.setBool("colorMode", eyeCare);
+  }
+
+  /// Persists whether the user has selected to remember open documents between sessions
+  Future<void> updateRememberState(bool rememberState) async {
+    await prefs.setBool("rememberState", rememberState);
   }
 
   /// Persists the user's preferred TeX compiler to local or remote storage.

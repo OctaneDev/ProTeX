@@ -239,7 +239,7 @@ class Compiler extends ChangeNotifier {
       }
       String pdfName = document.path!.replaceAll(".ptex", ".pdf");
       document.updateBuildProgress(40);
-      File(tempTexPath).writeAsStringSync(tex.replaceAll("\\r", "\\\\"));
+      File(tempTexPath).writeAsStringSync(tex/*.replaceAll("\\r", "\\\\")*/);
       document.updateBuildProgress(45);
       if (tex.toLowerCase().contains("backend=biber")) {
         try {
