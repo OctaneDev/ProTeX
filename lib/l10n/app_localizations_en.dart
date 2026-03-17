@@ -77,6 +77,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get replace => 'Replace';
 
   @override
+  String get advancedPaste => 'Advanced paste...';
+
+  @override
+  String get advancedPasteTooltip =>
+      'Paste content from other formats as LaTeX';
+
+  @override
+  String get htmlPasteHint => '<p>Your HTML content here</p>';
+
+  @override
+  String get mdPasteHint => '# Your markdown content here';
+
+  @override
+  String get htmlPaste => 'Paste HTML as LaTeX';
+
+  @override
+  String get mdPaste => 'Paste Markdown as LaTeX';
+
+  @override
   String get go => 'Go';
 
   @override
@@ -117,7 +136,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String minArticleContents(String fontSize, String name, String docSize) {
-    return '\\documentclass[$fontSize]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}';
+    return '\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[$fontSize]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank article}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\maketitle\n\\end{document}';
   }
 
   @override
@@ -125,7 +144,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String minReportContents(String fontSize, String name, String docSize) {
-    return '\\documentclass[$fontSize]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}';
+    return '\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[$fontSize]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank report}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}';
   }
 
   @override
@@ -133,7 +152,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String minBookContents(String fontSize, String name, String docSize) {
-    return '\\documentclass[$fontSize]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}';
+    return '\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[$fontSize]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\author{$name}\n\\title{Blank book}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}';
+  }
+
+  @override
+  String get accessibleArticleTitle => 'Accessible article';
+
+  @override
+  String accessibleContents(String fontSize, String name, String docSize) {
+    return '\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[$fontSize]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[${docSize}margin=1in]{geometry}\n\\usepackage{unicode-math}\n\\author{$name}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}';
   }
 
   @override

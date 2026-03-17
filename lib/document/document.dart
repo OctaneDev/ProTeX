@@ -37,6 +37,8 @@ class Document extends ChangeNotifier {
   Compiler? get compiler => _compiler;
 
   factory Document.fromFile(File file) {
+    log("Attempting to read file at ${file.path}");
+
     String readFile = file.readAsStringSync();
     bool isJson = false;
 
@@ -127,6 +129,8 @@ class Document extends ChangeNotifier {
   Future<String?> get compile async => await _compiler?.compile;
 
   Future<void> save(BuildContext context) async {
+    log("Attempting to save document with title $title at path $path");
+
     if (path == null) {
       if (Platform.isLinux) {
         String? tempPath = await FilesystemPicker.openDialog(
@@ -209,6 +213,21 @@ class Document extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void insertTextAtCursor(String text) {
+    if (_selection != null) {
+      final start = _selection!.start;
+      final end = _selection!.end;
+      contents = contents.replaceRange(start, end, text);
+      setCursorPosition(start + text.length);
+      setSelection(TextSelection.collapsed(offset: start + text.length));
+    } else {
+      contents = contents.substring(0, _cursorPosition) + text + contents.substring(_cursorPosition);
+      setCursorPosition(_cursorPosition + text.length);
+      setSelection(TextSelection.collapsed(offset: _cursorPosition + text.length));
+    }
+    documentChanged();
   }
 
   void documentChanged() {

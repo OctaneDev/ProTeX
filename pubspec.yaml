@@ -1,7 +1,7 @@
 name: protex
-description: "A new Flutter project."
+description: "A TeX editor and precompiler that integrates Python and LaTeX."
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.1.0+UMS
 
 environment:
   sdk: ^3.7.0
@@ -22,10 +22,13 @@ dependencies:
   pubspec_parse: ^1.5.0
   shared_preferences: ^2.5.2
   smooth_animated_listview: ^0.0.2
+  super_clipboard: ^0.9.1
   system_theme: ^3.1.2
   url_launcher: ^6.3.1
   uuid: ^4.5.1
   window_manager: ^0.4.3
+  html_to_tex:
+    path: /home/abloom/Nextcloud/Documents/htmlToTeX/html_to_tex
 
 dev_dependencies:
   flutter_test:

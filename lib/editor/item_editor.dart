@@ -115,7 +115,11 @@ class _ItemEditorState extends State<ItemEditor> {
     }
 
     if (document.selection != null) {
-      controller.selection = document.selection!;
+      try {
+        controller.selection = document.selection!;
+      } catch (e) {
+        log("failed to set selection", error: e);
+      }
     }
 
     return SafeArea(
@@ -196,6 +200,54 @@ class _ItemEditorState extends State<ItemEditor> {
           node.requestFocus();
         },
         /*contextMenuBuilder: (context, editableTextState) {
+          return AdaptiveTextSelectionToolbar.buttonItems(
+            anchors: editableTextState.contextMenuAnchors,
+            buttonItems: editableTextState.contextMenuButtonItems..add(
+              ContextMenuButtonItem(
+                onPressed: () async {
+                  AlertDialog? result = await showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(AppLocalizations.of(context)!.advancedPaste),
+                        content: StatefulBuilder(
+                          builder: (BuildContext context, StateSetter setState) {
+                            List<bool> isHTML = [true, false];
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(AppLocalizations.of(context)!.advancedPasteTooltip),
+                                SizedBox(height: 16),
+                                ToggleButtons(
+                                  isSelected: isHTML,
+                                  children: <Widget>[
+                                    Text(AppLocalizations.of(context)!.htmlPaste),
+                                    Text(AppLocalizations.of(context)!.mdPaste)
+                                  ]
+                                ),
+                                TextField()
+                              ],
+                            );
+                          }
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(AppLocalizations.of(context)!.cancel),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  Clipboard.setData(ClipboardData(text: widget.document.contents));
+                  Navigator.pop(context);
+                },
+                label: AppLocalizations.of(context)!.advancedPaste,
+              )
+            )
+          );
           // TODO implement context menu
         }*/
       )

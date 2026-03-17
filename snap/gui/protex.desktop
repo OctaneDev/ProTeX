@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=ProTeX
-Comment=A TeX editor and precompiler that integrates Python and LaTeX.
-Exec=protex 
-Icon=${SNAP}/meta/gui/protex.png # Replace name with your app name.
-Terminal=false
-Type=Application
-Categories=IDE; # Adjust accordingly your snap category.

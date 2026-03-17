@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:protex/common/navigation_service.dart';
 import 'package:protex/document/library.dart';
 import 'package:protex/editor/shortcut.dart';
@@ -93,6 +95,26 @@ final List<Shortcut> shortcuts = [
   Shortcut(name: l10n.centerAlign, shortCut: "-CENTER-", fullValue: "\\begin{center}\n\n\\end{center}", category: Category.general),
   Shortcut(name: l10n.includeGraphics, shortCut: "-IG-", fullValue: r"\includegraphics{}", category: Category.general),
 ];
+
+/// A simple logging function that writes logs to a file in the cache directory and also prints them to the console. It includes the log level, an optional name, and an optional error object.
+/// 
+/// The log file is named with the current date and time to ensure uniqueness. If logging fails for any reason, it will print an error message to the console.
+void log(String message, {String level = "INFO", String? name, Object? error}) async {
+  try {
+    String path = "${(await getApplicationCacheDirectory()).path}${Platform.pathSeparator}log-session-${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}-${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}.txt";
+    dev.log(path);
+    String logMessage = "[${DateTime.now().toIso8601String()}] [$level] ${name != null ? "[$name]: " : ""}$message ${error != null ? ": ${error.toString()}" : ""}\n";
+    File logFile = File(path);
+    if (!logFile.existsSync()) {
+      logFile.createSync(recursive: true);
+    }
+    logFile.writeAsStringSync(logMessage, mode: FileMode.append);
+  } catch (e) {
+    // If logging fails, print to console along with failed log message
+    dev.log("Logging failed: $e");
+  }
+  dev.log(name: name ?? 'Logging', "[$level] ${name != null ? "[$name] " : ""}$message");
+}
 
 void main(List<String> args) async {
   // TODO add support for args

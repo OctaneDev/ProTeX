@@ -4,8 +4,10 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_drop
+  irondash_engine_context
   permission_handler_windows
   screen_retriever_windows
+  super_native_extensions
   system_theme
   url_launcher_windows
   window_manager

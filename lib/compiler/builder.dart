@@ -87,6 +87,7 @@ class Compiler extends ChangeNotifier {
     if (python == null) {
       document.updateBuildStatus(false);
       _running = false;
+      log("Python not found on system", name: "Missing Python binary", level: "WARNING");
       return AppLocalizations.of(context)!.pythonNotFoundException;
     }
 
@@ -100,18 +101,22 @@ class Compiler extends ChangeNotifier {
       ]))?.stdout;
       if (tempTex == null) {
         document.updateBuildProgress(0);
+        log("TeX compilation failed during biber process. There is no output available.", name: "TeX compilation failed", level: "ERROR");
         throw SubprocessException(name: AppLocalizations.of(context)!.compileFailedException);
       } else if (tempTex.stderr != null && tempTex.exitCode != 0) {
         document.updateBuildProgress(0);
+        log("TeX compilation failed during biber process. The compiler exited with code ${tempTex.exitCode} and the following error:\n${tempTex.stderr}", name: "TeX compilation failed", level: "ERROR");
         throw TeXException(error: tempTex.stderr);
       } else {
         document.updateBuildProgress(70);
         ProcessResult? biber = (await subprocess(exec: "biber", args: [tempTexPath]))?.stdout;
         if (biber == null) {
           document.updateBuildProgress(0);
+          log("Biber process failed. There is no output available.", name: "Biber process failed", level: "ERROR");
           throw SubprocessException(name: AppLocalizations.of(context)!.biberFailedException);
         } else if (biber.stderr != null && biber.exitCode != 0) {
           document.updateBuildProgress(0);
+          log("Biber process failed. The process exited with code ${biber.exitCode} and the following error:\n${biber.stderr}", name: "Biber process failed", level: "ERROR");
           throw TeXException(error: biber.stderr);
         } else {
           document.updateBuildProgress(75);
@@ -122,9 +127,11 @@ class Compiler extends ChangeNotifier {
           ], wd: File(document.path!).parent.path))?.stdout;
           if (comp == null) {
             document.updateBuildProgress(0);
+            log("TeX compilation failed. There is no output available.", name: "TeX compilation failed", level: "ERROR");
             throw SubprocessException(name: AppLocalizations.of(context)!.compileFailedException);
           } else if (comp.stderr != null && comp.exitCode != 0) {
             document.updateBuildProgress(0);
+            log("TeX compilation failed. The compiler exited with code ${comp.exitCode} and the following error:\n${comp.stderr}", name: "TeX compilation failed", level: "ERROR");
             throw TeXException(error: comp.stderr);
           } else {
             File tempPdf = File("${File(document.path!).parent}${Platform.isWindows ? "\\" : "/"}temp.py");
@@ -146,10 +153,12 @@ class Compiler extends ChangeNotifier {
       document.updateBuildProgress(70);
       if (texCode == null) {
         document.updateBuildProgress(0);
+        log("TeX compilation failed. There is no output available.", name: "TeX compilation failed", level: "ERROR");
         throw SubprocessException();
       } else if (texCode.exitCode != 0 && texCode.stderr != null) {
         document.updateBuildProgress(0);
         _running = false;
+        log("TeX compilation failed. The compiler exited with code ${texCode.exitCode} and the following error:\n${texCode.stderr}", name: "TeX compilation failed", level: "ERROR");
         return texCode.stdout;
       } else {
         document.updateBuildProgress(80);
@@ -187,10 +196,12 @@ class Compiler extends ChangeNotifier {
     if (pyCode == null) {
       document.updateBuildProgress(0);
       _running = false;
+      log("Python script failed. There is no output available. Ignore if the file did not contain any Python code.", name: "Python script failed", level: "WARNING");
       return "pyCode failed";
     } else if (pyCode.exitCode != 0 && pyCode.stderr != null) {
       document.updateBuildProgress(0);
       _running = false;
+      log("Python script failed. The script exited with code ${pyCode.exitCode} and the following error:\n${pyCode.stderr}", name: "Python script failed", level: "WARNING");
       return pyCode.stderr;
     } else {
       document.updateBuildProgress(30);
@@ -235,6 +246,7 @@ class Compiler extends ChangeNotifier {
       if (document.path == null) {
         document.updateBuildProgress(0);
         _running = false;
+        log("Document path is null. Caught during compilation.", name: "Invalid Document Path", level: "ERROR");
         return null;
       }
       String pdfName = document.path!.replaceAll(".ptex", ".pdf");

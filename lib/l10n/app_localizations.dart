@@ -226,6 +226,42 @@ abstract class AppLocalizations {
   /// **'Replace'**
   String get replace;
 
+  /// No description provided for @advancedPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced paste...'**
+  String get advancedPaste;
+
+  /// No description provided for @advancedPasteTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste content from other formats as LaTeX'**
+  String get advancedPasteTooltip;
+
+  /// No description provided for @htmlPasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'<p>Your HTML content here</p>'**
+  String get htmlPasteHint;
+
+  /// No description provided for @mdPasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'# Your markdown content here'**
+  String get mdPasteHint;
+
+  /// No description provided for @htmlPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste HTML as LaTeX'**
+  String get htmlPaste;
+
+  /// No description provided for @mdPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste Markdown as LaTeX'**
+  String get mdPaste;
+
   /// No description provided for @go.
   ///
   /// In en, this message translates to:
@@ -307,7 +343,7 @@ abstract class AppLocalizations {
   /// No description provided for @minArticleContents.
   ///
   /// In en, this message translates to:
-  /// **'\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}'**
+  /// **'\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\maketitle\n\\end{document}'**
   String minArticleContents(String fontSize, String name, String docSize);
 
   /// No description provided for @minReportTitle.
@@ -319,7 +355,7 @@ abstract class AppLocalizations {
   /// No description provided for @minReportContents.
   ///
   /// In en, this message translates to:
-  /// **'\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}'**
+  /// **'\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}'**
   String minReportContents(String fontSize, String name, String docSize);
 
   /// No description provided for @minBookTitle.
@@ -331,8 +367,20 @@ abstract class AppLocalizations {
   /// No description provided for @minBookContents.
   ///
   /// In en, this message translates to:
-  /// **'\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}'**
+  /// **'\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}'**
   String minBookContents(String fontSize, String name, String docSize);
+
+  /// No description provided for @accessibleArticleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessible article'**
+  String get accessibleArticleTitle;
+
+  /// No description provided for @accessibleContents.
+  ///
+  /// In en, this message translates to:
+  /// **'\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\usepackage{unicode-math}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}'**
+  String accessibleContents(String fontSize, String name, String docSize);
 
   /// No description provided for @unsavedChangesWarningTitle.
   ///

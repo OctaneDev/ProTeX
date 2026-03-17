@@ -14,6 +14,8 @@ class Templates { // TODO add more templates
 
   static Document minBook({BuildContext? context}) => Document(null, context != null ? AppLocalizations.of(context)!.minBookTitle : l10n.minBookTitle, context != null ? AppLocalizations.of(context)!.minBookContents(settingsController.defDocFont, settingsController.authorName, settingsController.docSize != "none" ? "${settingsController.docSize}, " : "") : l10n.minBookContents(settingsController.defDocFont, settingsController.authorName, settingsController.docSize != "none" ? "${settingsController.docSize}, " : ""), saved: false);
 
+  /*static Document accessibleArticle({BuildContext? context}) => Document(null, context != null ? AppLocalizations.of(context)!.accessibleArticleTitle : l10n.accessibleArticleTitle, context != null ? AppLocalizations.of(context)!.accessibleContents(settingsController.defDocFont, settingsController.authorName, settingsController.docSize != "none" ? "${settingsController.docSize}, " : "") : l10n.accessibleContents(settingsController.defDocFont, settingsController.authorName, settingsController.docSize != "none" ? "${settingsController.docSize}, " : ""), saved: false);*/
+
   /// A list of template [Document]s for easy iteration
   static List<Document> allTemplates(BuildContext? context) => [newDoc(context: context), minArticle(context: context), minReport(context: context), minBook(context: context)];
 }

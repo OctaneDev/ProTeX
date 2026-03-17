@@ -34,6 +34,12 @@
   "prefs": "Preferences",
   "find": "Find...",
   "replace": "Replace...",
+  "advancedPaste": "Advanced paste...",
+  "advancedPasteTooltip": "Paste content from other formats as LaTeX",
+  "htmlPasteHint": "<p>Your HTML content here</p>",
+  "mdPasteHint": "# Your markdown content here",
+  "htmlPaste": "Paste HTML as LaTeX",
+  "mdPaste": "Paste Markdown as LaTeX",
 
   "go": "Go",
   "cacheLocation": "Cache folder",
@@ -53,7 +59,7 @@
   "homeTitle": "Get started",
   "emptyTemp": "Empty Document",
   "minArticleTitle": "Basic article",
-  "minArticleContents": "\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}",
+  "minArticleContents": "\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\maketitle\n\\end{document}",
   "@minArticleContents": {
     "placeholders": {
       "fontSize": {
@@ -68,7 +74,7 @@
     }
   },
   "minReportTitle": "Basic report",
-  "minReportContents": "\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}",
+  "minReportContents": "\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{report}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank report}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\maketitle\n\\tableofcontents\n\\end{document}",
   "@minReportContents": {
     "placeholders": {
       "fontSize": {
@@ -83,8 +89,23 @@
     }
   },
   "minBookTitle": "Basic book",
-  "minBookContents": "\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}",
+  "minBookContents": "\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{book}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\author{{name}}\n\\title{Blank book}\n\\date{\\today}\n\\usepackage{unicode-math}\n\\begin{document}\n\\frontmatter\n\\maketitle\n\\tableofcontents\n\\chapter{Preface}\n\\mainmatter\n\\chapter{First chapter}\n\\appendix\n\\chapter{Appendix}\n\\backmatter\n\\chapter{Final note}\n\\end{document}",
   "@minBookContents": {
+    "placeholders": {
+      "fontSize": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "docSize": {
+        "type": "String"
+      }
+    }
+  },
+  "accessibleArticleTitle": "Accessible article",
+  "accessibleContents": "\\DocumentMetadata{\ntagging = on,\n  lang = en,\n  pdfstandard = ua-2,\n  pdfstandard = a-4f, % optional archival standard\n  tagging-setup = {math/setup={mathml-AF,mathml-SE},\nextra-modules={verbatim-mo},\ntable/header-rows=1}}\n\\documentclass[{fontSize}]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[{docSize}margin=1in]{geometry}\n\\usepackage{unicode-math}\n\\author{{name}}\n\\title{Blank article}\n\\date{\\today}\n\\begin{document}\n\\maketitle\n\\end{document}",
+  "@accessibleContents": {
     "placeholders": {
       "fontSize": {
         "type": "String"

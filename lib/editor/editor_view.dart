@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:protex/common/navigation_service.dart';
 import 'package:protex/common/templates.dart';
 import 'package:protex/compiler/subprocess_runner.dart';
+import 'package:protex/editor/advanced_paste.dart';
 import 'package:protex/editor/find_replace_bar.dart';
 import 'package:protex/editor/home.dart';
 import 'package:protex/editor/item_editor.dart';
@@ -191,6 +192,15 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
               ),
               onSelected: () => findReplace(replace: true),
             ),
+            PlatformMenuItem(
+              label: l10n.advancedPaste,
+              shortcut: SingleActivator(
+                LogicalKeyboardKey.keyV, 
+                meta: true, 
+                shift: true
+              ),
+              onSelected: () async => await showDialog(context: context, builder: (context) => AdvancedPaste(doc: openDocs.documents[_tabController.index])),
+            )
           ]
         ),
         PlatformMenu(label: l10n.go, menus: <PlatformMenuItem>[
@@ -476,6 +486,11 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
               shortcut: SingleActivator(LogicalKeyboardKey.keyR, control: true),
               onPressed: () => findReplace(replace: true),
             ),
+            MenuEntry(
+              AppLocalizations.of(context)!.advancedPaste,
+              shortcut: SingleActivator(LogicalKeyboardKey.keyV, control: true, shift: true),
+              onPressed: () async => await showDialog(context: context, builder: (context) => AdvancedPaste(doc: openDocs.documents[_tabController.index])),
+            ),
           ]
         ),
         MenuEntry(
@@ -615,6 +630,7 @@ class _EditorViewState extends State<EditorView> with TickerProviderStateMixin {
                             padding: EdgeInsets.all(8),
                             constraints: BoxConstraints.expand(width: 250),
                             child: Card(
+                              color: Theme.of(context).colorScheme.surfaceContainer,
                               child: ListView.builder(
                                 itemCount: shortcuts.length,
                                 itemBuilder: (context, index) {
